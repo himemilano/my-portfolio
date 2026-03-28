@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { ShoppingBag, Building, Home, MapPin, Phone, ChevronRight, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import logoImg from './assets/logo.jpg';
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,7 +35,7 @@ export default function App() {
         <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
           <a href="#" className="flex items-center gap-3 md:gap-4 z-50 group">
             <img 
-              src="./logo.jpg" 
+              src={logoImg} 
               alt="HIMEMILANO Logo" 
               className="w-12 h-12 md:w-16 md:h-16 rounded-full object-contain bg-white shadow-sm border border-gray-100 transition-transform duration-300 group-hover:scale-105"
             />
@@ -86,80 +87,61 @@ export default function App() {
         )}
       </header>
 
-      {/* Hero Section with SVG Animation */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-paper">
-        {/* Animated SVG Background */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-          <motion.svg
-            width="800"
-            height="800"
-            viewBox="0 0 800 800"
-            initial="hidden"
-            animate="visible"
-            className="absolute"
-          >
-            <motion.circle
-              cx="400"
-              cy="400"
-              r="300"
-              stroke="var(--color-brand)"
-              strokeWidth="1"
-              fill="none"
-              strokeDasharray="4 8"
-              variants={{
-                hidden: { rotate: -90, opacity: 0 },
-                visible: {
-                  rotate: 0,
-                  opacity: 1,
-                  transition: { duration: 2, ease: "easeOut" },
-                },
+      {/* Hero Section with Space & Earth Animation */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-[#050505]">
+        {/* Space Background (Stars) */}
+        <div 
+          className="absolute inset-0 z-0" 
+          style={{ 
+            backgroundImage: 'radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)), radial-gradient(1px 1px at 40px 70px, #ffffff, rgba(0,0,0,0)), radial-gradient(1px 1px at 50px 160px, #dddddd, rgba(0,0,0,0)), radial-gradient(1px 1px at 90px 40px, #ffffff, rgba(0,0,0,0)), radial-gradient(1px 1px at 130px 80px, #ffffff, rgba(0,0,0,0)), radial-gradient(1.5px 1.5px at 160px 120px, #dddddd, rgba(0,0,0,0))', 
+            backgroundSize: '200px 200px',
+            opacity: 0.8
+          }}
+        ></div>
+        
+        {/* Realistic 3D Rotating Earth */}
+        <div className="absolute inset-0 flex items-center justify-center z-0 opacity-90">
+          <style>{`
+            @keyframes spin-earth {
+              from { background-position: 0% center; }
+              to { background-position: 200% center; }
+            }
+          `}</style>
+          <div className="relative w-[400px] h-[400px] md:w-[700px] md:h-[700px] rounded-full shadow-[0_0_80px_rgba(70,130,180,0.3)]">
+            {/* Tilted & Spinning Earth Texture */}
+            <div 
+              className="absolute inset-0 rounded-full overflow-hidden"
+              style={{ transform: 'rotate(23.5deg)' }}
+            >
+              <div 
+                className="w-full h-full"
+                style={{
+                  backgroundImage: "url('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')",
+                  backgroundSize: "200% 100%",
+                  backgroundRepeat: "repeat-x",
+                  animation: "spin-earth 80s linear infinite"
+                }}
+              />
+            </div>
+            {/* Fixed Day/Night Shadow Overlay */}
+            <div 
+              className="absolute inset-0 rounded-full pointer-events-none"
+              style={{
+                boxShadow: "inset -60px -40px 100px rgba(0,0,0,0.9), inset 10px 10px 40px rgba(255,255,255,0.2)"
               }}
             />
-            <motion.circle
-              cx="400"
-              cy="400"
-              r="340"
-              stroke="var(--color-brand)"
-              strokeWidth="0.5"
-              fill="none"
-              variants={{
-                hidden: { pathLength: 0, rotate: 90 },
-                visible: {
-                  pathLength: 1,
-                  rotate: 0,
-                  transition: { duration: 3, ease: "easeInOut" },
-                },
-              }}
-            />
-          </motion.svg>
+          </div>
         </div>
 
         <motion.div
           style={{ opacity: heroOpacity, y: heroY }}
           className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center"
         >
-          {/* Sophisticated Hero Image */}
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className="mb-10 relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-white shadow-2xl flex items-center justify-center overflow-hidden border-8 border-white"
-          >
-            <img 
-              src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80" 
-              alt="Sophisticated Lifestyle and Architecture" 
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-            {/* Subtle overlay for elegance */}
-            <div className="absolute inset-0 bg-black/5 rounded-full"></div>
-          </motion.div>
-
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="text-sm md:text-base font-semibold tracking-[0.2em] text-brand uppercase mb-4 block"
+            className="text-sm md:text-base font-semibold tracking-[0.2em] text-blue-200 uppercase mb-4 block drop-shadow-md"
           >
             Global Trading & Real Estate Solutions
           </motion.span>
@@ -167,16 +149,16 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
-            className="font-serif text-4xl md:text-6xl lg:text-7xl font-medium leading-tight mb-6"
+            className="font-serif text-4xl md:text-6xl lg:text-7xl font-medium leading-tight mb-6 text-white drop-shadow-lg"
           >
             HIMEMILANO <br className="hidden md:block" />
-            <span className="italic font-light">WORLD TRADING</span>
+            <span className="italic font-light text-gray-300">WORLD TRADING</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.9 }}
-            className="text-gray-600 md:text-lg max-w-2xl mx-auto"
+            className="text-gray-300 md:text-lg max-w-2xl mx-auto drop-shadow-md"
           >
             洗練されたライフスタイルと確かな住環境を、世界へ、そしてあなたへ。
           </motion.p>
@@ -187,13 +169,13 @@ export default function App() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
         >
-          <span className="text-xs uppercase tracking-widest text-gray-400">Scroll</span>
+          <span className="text-[10px] uppercase tracking-widest text-gray-400">Scroll</span>
           <motion.div
-            animate={{ y: [0, 10, 0] }}
+            animate={{ y: [0, 8, 0] }}
             transition={{ repeat: Infinity, duration: 1.5 }}
-            className="w-[1px] h-12 bg-gradient-to-b from-gray-400 to-transparent"
+            className="w-[1px] h-8 bg-gradient-to-b from-gray-400 to-transparent"
           />
         </motion.div>
       </section>
