@@ -1,7 +1,6 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { ShoppingBag, Building, Home, MapPin, Phone, ChevronRight, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
-import logoImg from './assets/logo.jpg';
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,7 +34,7 @@ export default function App() {
         <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
           <a href="#" className="flex items-center gap-3 md:gap-4 z-50 group">
             <img 
-              src={logoImg} 
+              src={`${import.meta.env.BASE_URL}logo.jpg`} 
               alt="HIMEMILANO Logo" 
               className="w-12 h-12 md:w-16 md:h-16 rounded-full object-contain bg-white shadow-sm border border-gray-100 transition-transform duration-300 group-hover:scale-105"
             />
