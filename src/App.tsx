@@ -20,6 +20,7 @@ export default function App() {
     { name: "Gatto Felice", href: "#ec-business" },
     { name: "Real Estate", href: "#real-estate" },
     { name: "Company", href: "#company" },
+    { name: "Contact", href: "#contact" },
   ];
 
   return (
@@ -31,8 +32,15 @@ export default function App() {
         }`}
       >
         <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
-          <a href="#" className="font-serif text-xl md:text-2xl font-semibold tracking-wider text-ink z-50">
-            HIMEMILANO
+          <a href="#" className="flex items-center gap-3 md:gap-4 z-50 group">
+            <img 
+              src="./logo.jpg" 
+              alt="HIMEMILANO Logo" 
+              className="w-12 h-12 md:w-16 md:h-16 rounded-full object-contain bg-white shadow-sm border border-gray-100 transition-transform duration-300 group-hover:scale-105"
+            />
+            <span className="font-serif text-xl md:text-2xl font-semibold tracking-wider text-ink">
+              HIMEMILANO
+            </span>
           </a>
 
           {/* Desktop Nav */}
@@ -130,18 +138,21 @@ export default function App() {
           style={{ opacity: heroOpacity, y: heroY }}
           className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center"
         >
-          {/* Logo Image */}
+          {/* Sophisticated Hero Image */}
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
+            initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="mb-8 relative w-56 h-56 md:w-72 md:h-72 rounded-full bg-white shadow-xl flex items-center justify-center overflow-hidden border-4 border-white"
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="mb-10 relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-white shadow-2xl flex items-center justify-center overflow-hidden border-8 border-white"
           >
             <img 
-              src="/logo.jpg" 
-              alt="HIMEMILANO WORLD TRADING" 
-              className="w-full h-full object-contain p-2"
+              src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80" 
+              alt="Sophisticated Lifestyle and Architecture" 
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
             />
+            {/* Subtle overlay for elegance */}
+            <div className="absolute inset-0 bg-black/5 rounded-full"></div>
           </motion.div>
 
           <motion.span
@@ -360,6 +371,87 @@ export default function App() {
                 </div>
               </div>
             </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-24 md:py-32 bg-paper">
+        <div className="container mx-auto px-6 md:px-12">
+          <div className="text-center mb-16">
+            <h2 className="font-serif text-3xl md:text-5xl mb-4">Contact Us</h2>
+            <p className="text-gray-500 tracking-wide">お問い合わせ</p>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-2xl mx-auto bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-gray-100"
+          >
+            <p className="text-center text-gray-600 mb-8 leading-relaxed">
+              商品に関するご質問、不動産・建築に関するご相談など、<br className="hidden md:block" />
+              お気軽にお問い合わせください。
+            </p>
+
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const name = formData.get('name');
+                const email = formData.get('email');
+                const message = formData.get('message');
+                
+                const subject = encodeURIComponent(`【お問い合わせ】${name}様より`);
+                const body = encodeURIComponent(`お名前: ${name}\nメールアドレス: ${email}\n\n【お問い合わせ内容】\n${message}`);
+                
+                window.location.href = `mailto:222gatto.felice222@gmail.com?subject=${subject}&body=${body}`;
+              }}
+              className="space-y-6"
+            >
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">お名前</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name" 
+                  required 
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all bg-gray-50 focus:bg-white"
+                  placeholder="山田 太郎"
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">メールアドレス</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  required 
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all bg-gray-50 focus:bg-white"
+                  placeholder="your@email.com"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">お問い合わせ内容</label>
+                <textarea 
+                  id="message" 
+                  name="message" 
+                  required 
+                  rows={5}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all bg-gray-50 focus:bg-white resize-none"
+                  placeholder="ご質問やご相談内容をご記入ください。"
+                ></textarea>
+              </div>
+
+              <button 
+                type="submit"
+                className="w-full py-4 bg-ink text-white rounded-xl font-medium tracking-wide hover:bg-brand transition-colors duration-300 flex items-center justify-center gap-2"
+              >
+                メールソフトを起動して送信する
+              </button>
+            </form>
           </motion.div>
         </div>
       </section>
