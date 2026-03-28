@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { ShoppingBag, Building, Home, MapPin, Phone, ChevronRight, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import logoImg from './assets/logo.jpg';
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,7 +35,7 @@ export default function App() {
         <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
           <a href="#" className="flex items-center gap-3 md:gap-4 z-50 group">
             <img 
-              src={`${import.meta.env.BASE_URL}logo.jpg`} 
+              src={logoImg} 
               alt="HIMEMILANO Logo" 
               className="w-12 h-12 md:w-16 md:h-16 rounded-full object-contain bg-white shadow-sm border border-gray-100 transition-transform duration-300 group-hover:scale-105"
             />
@@ -105,15 +106,22 @@ export default function App() {
               from { background-position: 0% center; }
               to { background-position: 200% center; }
             }
+            @keyframes spin-clouds {
+              from { background-position: 0% center; }
+              to { background-position: 200% center; }
+            }
           `}</style>
-          <div className="relative w-[400px] h-[400px] md:w-[700px] md:h-[700px] rounded-full shadow-[0_0_80px_rgba(70,130,180,0.3)]">
-            {/* Tilted & Spinning Earth Texture */}
+          {/* Atmosphere Glow */}
+          <div className="relative w-[400px] h-[400px] md:w-[700px] md:h-[700px] rounded-full shadow-[0_0_60px_rgba(100,180,255,0.4),0_0_120px_rgba(100,180,255,0.2)]">
+            
+            {/* Tilted & Spinning Earth Container */}
             <div 
               className="absolute inset-0 rounded-full overflow-hidden"
               style={{ transform: 'rotate(23.5deg)' }}
             >
+              {/* Surface Texture */}
               <div 
-                className="w-full h-full"
+                className="absolute inset-0 w-full h-full"
                 style={{
                   backgroundImage: "url('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')",
                   backgroundSize: "200% 100%",
@@ -121,12 +129,24 @@ export default function App() {
                   animation: "spin-earth 80s linear infinite"
                 }}
               />
+              {/* Clouds Layer */}
+              <div 
+                className="absolute inset-0 w-full h-full opacity-50 mix-blend-screen"
+                style={{
+                  backgroundImage: "url('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png')",
+                  backgroundSize: "200% 100%",
+                  backgroundRepeat: "repeat-x",
+                  animation: "spin-clouds 60s linear infinite"
+                }}
+              />
             </div>
-            {/* Fixed Day/Night Shadow Overlay */}
+            
+            {/* Fixed Day/Night Shadow Overlay (Spherical Lighting) */}
             <div 
               className="absolute inset-0 rounded-full pointer-events-none"
               style={{
-                boxShadow: "inset -60px -40px 100px rgba(0,0,0,0.9), inset 10px 10px 40px rgba(255,255,255,0.2)"
+                background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0.95) 100%)",
+                boxShadow: "inset -40px -20px 80px rgba(0,0,0,0.9)"
               }}
             />
           </div>
