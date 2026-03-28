@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { ShoppingBag, Building, Home, MapPin, Phone, ChevronRight, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
-import logoImg from './assets/logo.jpg?inline';
+import { logoBase64 } from "./logoBase64";
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,7 +35,7 @@ export default function App() {
         <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
           <a href="#" className="flex items-center gap-3 md:gap-4 z-50 group">
             <img 
-              src={logoImg} 
+              src={logoBase64} 
               alt="HIMEMILANO Logo" 
               className="w-12 h-12 md:w-16 md:h-16 rounded-full object-contain bg-white shadow-sm border border-gray-100 transition-transform duration-300 group-hover:scale-105"
             />
@@ -104,103 +104,109 @@ export default function App() {
           <style>{`
             @keyframes spin-earth {
               from { background-position: 0% center; }
-              to { background-position: 200% center; }
+              to { background-position: -200% center; }
             }
             @keyframes spin-clouds {
               from { background-position: 0% center; }
-              to { background-position: 200% center; }
+              to { background-position: -200% center; }
             }
             @keyframes night-fade {
-              0%, 15% { opacity: 0; } /* Day */
+              0%, 20% { opacity: 0; } /* Day */
               40%, 60% { opacity: 1; } /* Night */
-              85%, 100% { opacity: 0; } /* Day */
+              80%, 100% { opacity: 0; } /* Day */
             }
             @keyframes day-shadow-fade {
-              0%, 15% { opacity: 1; } /* Day */
+              0%, 20% { opacity: 1; } /* Day */
               40%, 60% { opacity: 0; } /* Night */
-              85%, 100% { opacity: 1; } /* Day */
+              80%, 100% { opacity: 1; } /* Day */
             }
             @keyframes night-shadow-fade {
-              0%, 15% { opacity: 0; } /* Day */
+              0%, 20% { opacity: 0; } /* Day */
               40%, 60% { opacity: 1; } /* Night */
-              85%, 100% { opacity: 0; } /* Day */
+              80%, 100% { opacity: 0; } /* Day */
             }
             @keyframes atmosphere-fade {
-              0%, 15% { opacity: 1; } /* Day */
+              0%, 20% { opacity: 1; } /* Day */
               40%, 60% { opacity: 0.2; } /* Night */
-              85%, 100% { opacity: 1; } /* Day */
+              80%, 100% { opacity: 1; } /* Day */
             }
           `}</style>
           
-          {/* Atmosphere Glow */}
+          {/* Wrapper for Glow and Earth */}
           <div className="relative w-[400px] h-[400px] md:w-[700px] md:h-[700px] rounded-full">
             
-            {/* Day Atmosphere Glow */}
+            {/* Atmosphere Glows */}
             <div 
               className="absolute inset-0 rounded-full shadow-[0_0_60px_rgba(100,180,255,0.4),0_0_120px_rgba(100,180,255,0.2)]"
-              style={{ animation: "atmosphere-fade 60s ease-in-out infinite" }}
+              style={{ animation: "atmosphere-fade 240s ease-in-out infinite" }}
             />
-            {/* Night Atmosphere Glow (Subtle) */}
             <div 
               className="absolute inset-0 rounded-full shadow-[0_0_30px_rgba(50,100,200,0.2)]"
-              style={{ animation: "night-shadow-fade 60s ease-in-out infinite" }}
+              style={{ animation: "night-shadow-fade 240s ease-in-out infinite" }}
             />
             
-            {/* Tilted & Spinning Earth Container */}
-            <div 
-              className="absolute inset-0 rounded-full overflow-hidden"
-              style={{ transform: 'rotate(23.5deg)' }}
-            >
-              {/* Day Surface Texture */}
+            {/* Earth Sphere (Clipped) */}
+            <div className="absolute inset-0 rounded-full overflow-hidden">
+              
+              {/* 1. Day Surface Texture (Tilted & Spinning) */}
+              <div className="absolute inset-0 w-full h-full" style={{ transform: 'rotate(23.5deg)' }}>
+                <div 
+                  className="absolute inset-0 w-full h-full"
+                  style={{
+                    backgroundImage: "url('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')",
+                    backgroundSize: "200% 100%",
+                    backgroundRepeat: "repeat-x",
+                    animation: "spin-earth 240s linear infinite"
+                  }}
+                />
+              </div>
+
+              {/* 2. Fixed Shadows (Day and Night) */}
               <div 
-                className="absolute inset-0 w-full h-full"
+                className="absolute inset-0 w-full h-full pointer-events-none"
                 style={{
-                  backgroundImage: "url('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')",
-                  backgroundSize: "200% 100%",
-                  backgroundRepeat: "repeat-x",
-                  animation: "spin-earth 120s linear infinite"
+                  background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0.95) 100%)",
+                  boxShadow: "inset -40px -20px 80px rgba(0,0,0,0.9)",
+                  animation: "day-shadow-fade 240s ease-in-out infinite"
                 }}
               />
-              {/* Night Surface Texture (City Lights) */}
               <div 
-                className="absolute inset-0 w-full h-full mix-blend-screen"
+                className="absolute inset-0 w-full h-full pointer-events-none"
                 style={{
-                  backgroundImage: "url('https://unpkg.com/three-globe/example/img/earth-night.jpg')",
-                  backgroundSize: "200% 100%",
-                  backgroundRepeat: "repeat-x",
-                  animation: "spin-earth 120s linear infinite, night-fade 60s ease-in-out infinite"
+                  background: "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,0.98) 100%)",
+                  boxShadow: "inset -60px -40px 100px rgba(0,0,0,0.98)",
+                  animation: "night-shadow-fade 240s ease-in-out infinite"
                 }}
               />
-              {/* Clouds Layer */}
-              <div 
-                className="absolute inset-0 w-full h-full opacity-40 mix-blend-screen"
-                style={{
-                  backgroundImage: "url('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png')",
-                  backgroundSize: "200% 100%",
-                  backgroundRepeat: "repeat-x",
-                  animation: "spin-clouds 90s linear infinite"
-                }}
-              />
+
+              {/* 3. Night Surface Texture (City Lights) - On top of shadows so lights pop! */}
+              <div className="absolute inset-0 w-full h-full mix-blend-screen" style={{ transform: 'rotate(23.5deg)' }}>
+                <div 
+                  className="absolute inset-0 w-full h-full"
+                  style={{
+                    backgroundImage: "url('https://unpkg.com/three-globe/example/img/earth-night.jpg')",
+                    backgroundSize: "200% 100%",
+                    backgroundRepeat: "repeat-x",
+                    filter: "contrast(2) brightness(1.5)",
+                    animation: "spin-earth 240s linear infinite, night-fade 240s ease-in-out infinite"
+                  }}
+                />
+              </div>
+
+              {/* 4. Clouds Layer */}
+              <div className="absolute inset-0 w-full h-full mix-blend-screen opacity-40" style={{ transform: 'rotate(23.5deg)' }}>
+                <div 
+                  className="absolute inset-0 w-full h-full"
+                  style={{
+                    backgroundImage: "url('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png')",
+                    backgroundSize: "200% 100%",
+                    backgroundRepeat: "repeat-x",
+                    animation: "spin-clouds 180s linear infinite"
+                  }}
+                />
+              </div>
+
             </div>
-            
-            {/* Fixed Day Shadow Overlay (Spherical Lighting) */}
-            <div 
-              className="absolute inset-0 rounded-full pointer-events-none"
-              style={{
-                background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0.95) 100%)",
-                boxShadow: "inset -40px -20px 80px rgba(0,0,0,0.9)",
-                animation: "day-shadow-fade 60s ease-in-out infinite"
-              }}
-            />
-            {/* Fixed Night Shadow Overlay (Darker overall) */}
-            <div 
-              className="absolute inset-0 rounded-full pointer-events-none"
-              style={{
-                background: "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.95) 100%)",
-                boxShadow: "inset -60px -40px 100px rgba(0,0,0,0.95)",
-                animation: "night-shadow-fade 60s ease-in-out infinite"
-              }}
-            />
           </div>
         </div>
 
